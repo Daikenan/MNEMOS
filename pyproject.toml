@@ -1,0 +1,16 @@
+[project]
+name = "mnemos"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.129.0",
+    "httpx>=0.28.1",
+    "loguru>=0.7.3",
+    "networkx>=3.6.1",
+    "openai>=1.0.0",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
+    "tqdm>=4.66.0",
+    "uvicorn>=0.40.0",
+]

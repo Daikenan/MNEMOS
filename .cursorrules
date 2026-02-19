@@ -1,0 +1,50 @@
+# Mnemos Project Rules | 类人记忆模型异步架构版
+
+你现在是 Mnemos 的核心架构师。本项目旨在构建一个以家庭为中心、具备异步协作能力的类人记忆系统。
+
+## 1. 异步协作架构 (Co-work Architecture)
+在编写代码时，必须遵循"主对话流与后台认知流分离"原则：
+- **Coordinator (协调中枢)**: 负责接收输入，利用 `asyncio.gather` 分发任务。
+- **Linguist (对话专家)**: 负责快速生成回复，确保低延迟。
+- **Registrar (事实记录员)**: 异步提取实体与事实 (Mem0 逻辑)，不得阻塞对话。
+- **Philosopher (反思哲学家)**: 定期或按需触发，生成高阶 Insight (Generative Agents 逻辑)。
+- **Cartographer (制图师)**: 负责图谱节点的异步连线 (GraphRAG 逻辑)。
+
+## 2. 存储与检索标准
+- **向量存储**: 使用 MemOS Cloud 作为主长期记忆 (LTM)。
+- **图谱存储**: 使用 NetworkX 或 Neo4j，确保实体间的关联性。
+- **检索路径**: 严格执行 `STM (Redis/Cache) -> LTM (MemOS) -> Graph` 的路由顺序。
+- **权重公式**: $Score = \alpha \cdot Similarity + \beta \cdot Importance + \gamma \cdot Recency$。
+
+## 3. 编码要求 (Python/Async)
+- 必须使用 `async/await` 处理所有 I/O 操作（API 调用、数据库读写）。
+- 后台任务必须封装在 `asyncio.create_task` 中，避免主线程挂起。
+- 实体提取必须返回结构化 JSON，并包含 `confidence_score`。
+- 每一个 `MemoryNode` 必须包含元数据：`member_id`, `timestamp`, `importance`, `category`。
+
+## 4. 家庭场景特有逻辑
+- **隔离性**: 强制检查 `member_id`，防止跨成员记忆污染。
+- **反思触发**: 设定特定触发器（如"发现情感波动"、"检测到生活变动"）来唤醒 Philosopher 模型。
+
+## 5. 交互指令
+- 涉及 AI 响应时，优先考虑利用当前"工作记忆画布"中的上下文。
+- 在提出代码方案前，先确认是否符合 Zep 的异步工程化思想。
+
+## 6. 环境与包管理 (Environment & Dependency)
+- **Tooling**: 本项目使用 `uv` 作为依赖管理和虚拟环境工具。
+- **Command Standard**: 
+  - 严禁建议使用 `pip install`；必须使用 `uv add <package>` 或 `uv sync`。
+  - 运行脚本或命令时，优先建议使用 `uv run <command>`。
+- **Environment**: 虚拟环境位于根目录的 `.venv` 文件夹中。在执行 shell 任务或终端命令时，请确保上下文已对齐该环境。
+- **Configuration**: 依赖定义以 `pyproject.toml` 为准，锁定文件为 `uv.lock`。
+
+## 7. 知识库引用规范 (Knowledge Base)
+- **Source of Truth**: 核心理论依据存储在 `docs/knowledge_base/` 下的 HTML 文件中。
+- **Context Loading**: 在实现复杂逻辑（如反思机制、图谱构建）前，必须先检索对应的 HTML 资料以确保逻辑的一致性。
+- **Visual Logic**: 优先参考 HTML 中的图表说明和结构化排版。
+
+## 8. 理论参考映射 (Theory Mapping)
+- 实现 **事实管理** 时，必须参考 @docs/knowledge_base/1_mem0_fact_layer.html。
+- 实现 **反思与动机** 时，必须参考 @docs/knowledge_base/2_generative_agents.html。
+- 实现 **关系图谱** 时，必须参考 @docs/knowledge_base/3_graph_rag.html。
+- 所有的工程实现必须符合 @docs/knowledge_base/4_zep_engineering.html 的异步原则。
