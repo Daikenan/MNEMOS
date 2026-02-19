@@ -1,6 +1,6 @@
 # Mnemos
 
-以家庭为中心的类人记忆系统，具备异步协作能力（Coordinator / Linguist / Registrar / Philosopher / Psychologist / Cartographer），支持 KnowMe-Bench 打榜评测。
+类人记忆系统，具备异步协作能力（Coordinator / Linguist / Registrar / Philosopher / Psychologist / Cartographer），支持 KnowMe-Bench 打榜评测。
 
 ---
 
@@ -137,3 +137,4 @@ cd KnowMeBench/evaluate && uv run python run_eval.py --input_file ../../data/mod
 - **API 服务**：`mnemos.api.app` 提供 FastAPI，可由 `uv run uvicorn mnemos.api.app:app --reload` 启动，供对话/记忆接口调用。  
 - **Level III 心理洞察测试**：`uv run python tests/psychologist_test.py`，模拟一月记忆流并生成 `data/hybrid_benchmark_results.jsonl`。  
 - 理论与场景说明见 `docs/`（如 `logic_integrity_scenario.md`、`knowme_bench_local_setup.md`）。
+
